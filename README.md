@@ -237,6 +237,128 @@ docker-compose build --no-cache
 docker-compose up -d
 ```
 
+## 🚀 Membuat MVC Resource dengan Semua HTTP Methods
+
+Setelah project dibuat, Anda bisa menggunakan script `create-mvc-resource.sh` untuk membuat MVC resource lengkap dengan semua HTTP methods (GET, POST, PUT, PATCH, DELETE) dan SQLite untuk testing.
+
+### Usage
+
+```bash
+# Dari dalam project directory
+./create-mvc-resource.sh [ModelName] [project-path]
+
+# Atau dari template directory
+./create-mvc-resource.sh Product ../my-shop
+./create-mvc-resource.sh User ../my-shop
+```
+
+**Contoh:**
+```bash
+cd ../my-shop
+../Template-laravel-Docker/create-mvc-resource.sh Product
+../Template-laravel-Docker/create-mvc-resource.sh Order
+```
+
+### Apa yang Dibuat Script?
+
+Script ini akan otomatis membuat:
+
+1. ✅ **Model** dengan fillable attributes
+2. ✅ **Migration** dengan schema dasar (id, name, description, timestamps)
+3. ✅ **Controller** dengan semua HTTP methods:
+   - `index()` - GET /api/{resources} - List all dengan pagination & search
+   - `store()` - POST /api/{resources} - Create new
+   - `show()` - GET /api/{resources}/{id} - Show one
+   - `update()` - PUT /api/{resources}/{id} - Update full
+   - `patch()` - PATCH /api/{resources}/{id} - Update partial
+   - `destroy()` - DELETE /api/{resources}/{id} - Delete
+4. ✅ **Routes** di `routes/api.php` untuk semua methods
+5. ✅ **Factory** dan **Seeder** untuk testing
+6. ✅ **Test file** lengkap dengan semua test cases
+7. ✅ **SQLite database** untuk testing (`database/database.sqlite`)
+
+### Fitur Controller
+
+- ✅ **Validation** dengan error handling
+- ✅ **JSON Response** format yang konsisten
+- ✅ **Search functionality** di index method
+- ✅ **Pagination** di index method
+- ✅ **Error handling** untuk not found
+- ✅ **Partial update** dengan PATCH method
+
+### API Endpoints yang Dibuat
+
+Untuk model `Product`, script akan membuat:
+
+```
+GET    /api/products              - List all products (dengan pagination & search)
+POST   /api/products              - Create new product
+GET    /api/products/{id}         - Show one product
+PUT    /api/products/{id}         - Update full product
+PATCH  /api/products/{id}         - Update partial product
+DELETE /api/products/{id}         - Delete product
+```
+
+### Testing dengan SQLite
+
+Script otomatis:
+- ✅ Membuat `database/database.sqlite`
+- ✅ Mengkonfigurasi SQLite untuk testing
+- ✅ Menjalankan migration dengan SQLite
+- ✅ Membuat test file dengan SQLite in-memory database
+
+### Contoh Response
+
+**Success Response:**
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Product created successfully"
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "errors": { ... },
+  "message": "Product not found"
+}
+```
+
+### Next Steps Setelah Script
+
+1. **Edit Migration** - Tambahkan kolom sesuai kebutuhan:
+   ```bash
+   # Edit file migration di database/migrations/
+   ```
+
+2. **Edit Model** - Tambahkan relationships, casts, dll:
+   ```php
+   // app/Models/Product.php
+   protected $fillable = ['name', 'description', 'price', 'stock'];
+   ```
+
+3. **Edit Controller** - Sesuaikan business logic:
+   ```php
+   // app/Http/Controllers/ProductController.php
+   ```
+
+4. **Jalankan Migration:**
+   ```bash
+   php artisan migrate:fresh --seed
+   # atau dengan Docker:
+   docker-compose exec app php artisan migrate:fresh --seed
+   ```
+
+5. **Jalankan Tests:**
+   ```bash
+   php artisan test --filter ProductTest
+   # atau dengan Docker:
+   docker-compose exec app php artisan test --filter ProductTest
+   ```
+
 ## 📝 Catatan
 
 - Port 8080 digunakan untuk web server (bisa diubah di docker-compose.yml)
