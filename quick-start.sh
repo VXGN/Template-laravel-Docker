@@ -46,5 +46,14 @@ if [ -z "$project_name" ]; then
     exit 1
 fi
 
-# Jalankan script utama
 ./create-laravel-project.sh "$project_name"
+
+read -p "Apakah Anda ingin membuat resource MVC dasar? (y/n): " create_mvc
+if [[ "$create_mvc" == "y" || "$create_mvc" == "Y" ]]; then
+    ./create-mvc-resource.sh "Sample" "../$project_name"
+fi 
+
+echo ""
+echo "🎉 Project '$project_name' berhasil dibuat!"
+echo "   Akses di: ../$project_name/"
+echo "════════════════════════════════════════════════════════════"
