@@ -1,0 +1,57 @@
+# CATATAN PENGGUNAAN LARAVEL DOCKER TEMPLATE
+
+## 🎯 CARA MENGGUNAKAN TEMPLATE INI
+
+Folder ini adalah TEMPLATE untuk membuat banyak project Laravel.
+JANGAN install Laravel di folder ini!
+
+## ✅ CARA MEMBUAT PROJECT BARU
+
+### Gunakan Script (MUDAH):
+
+```bash
+./create-laravel-project.sh nama-project-baru
+```
+
+Contoh:
+```bash
+./create-laravel-project.sh toko-online
+./create-laravel-project.sh blog-saya
+./create-laravel-project.sh api-mobile
+```
+
+### Hasil:
+- Folder baru: ../nama-project-baru
+- Volume terpisah: nama_project_baru_mysql_data
+- Database terpisah: nama_project_baru
+- Laravel sudah terinstall otomatis!
+
+## 📁 Struktur
+
+```
+Laravel/
+├── websevis-kampus/     ← TEMPLATE (folder ini)
+├── toko-online/         ← Project 1
+├── blog-saya/           ← Project 2
+└── api-mobile/          ← Project 3
+```
+
+Setiap project TERPISAH dengan volume sendiri-sendiri!
+
+## 🚫 JANGAN:
+- ❌ make install di folder ini
+- ❌ Install Laravel di folder template
+
+## ✅ LAKUKAN:
+- ✅ Gunakan script create-laravel-project.sh
+- ✅ Setiap project baru akan punya folder sendiri
+
+## 🔧 Commands Setelah Buat Project
+
+```bash
+cd ../nama-project-anda
+make logs
+make bash
+make migrate
+docker-compose down
+```
